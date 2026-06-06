@@ -2,6 +2,12 @@ from typing import TypedDict, Annotated, Literal
 from langgraph.graph import add_messages, StateGraph, END, START
 from langchain_core.messages import BaseMessage, AIMessage
 from gerente_agent import run_agent
+from a2a.client.card_resolver import A2ACardResolver
+import httpx
+from uuid import uuid4
+from a2a.client import ClientConfig, ClientFactory
+from a2a.types import SendMessageRequest, Message,StreamResponse, Role, Part
+from utils import call_agent, AGENTS
 
 class AgenciaState(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
@@ -13,9 +19,10 @@ def call_redator(state: AgenciaState):
         "messages": [AIMessage(content="redator")]
     }
 
-def call_pesquisador(state: AgenciaState):
+async def call_pesquisador(state: AgenciaState):
+    response = await call_agent(messages=state["messages"], agent_url=AGENTS["pesquisador"], context_id=state["context_id"])
     return {
-        "messages": [AIMessage(content="pesquisador")]
+        "messages": [AIMessage(content=response)]
     }
 
 async def call_gerente(state: AgenciaState):

@@ -44,7 +44,7 @@ agent_card = AgentCard(
     ]
 )
 
-gerente_agent_instance = create_agent(
+gerente_agent = create_agent(
     llm,
     system_prompt="""
         Você é um gerente de uma agência de publicidade, sua tarefa é saber se a tarefa precisa ir para 
@@ -69,5 +69,5 @@ gerente_agent_instance = create_agent(
 )
 
 async def run_agent(messages: list[BaseMessage], context_id: str):
-    response = await gerente_agent_instance.ainvoke({"messages": messages})
+    response = await gerente_agent.ainvoke({"messages": messages})
     return response["structured_response"]
