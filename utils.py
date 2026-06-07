@@ -9,8 +9,9 @@ from a2a.client import ClientConfig, ClientFactory
 from a2a.types import SendMessageRequest, Message,StreamResponse, Role, Part
 
 AGENTS = {
-            "pesquisador": "http://localhost:8002",
             "gerente": "http://localhost:8001",
+            "pesquisador": "http://localhost:8002",
+            "redator": "http://localhost:8003"
         }
 
 def get_text_from_message(message: Message) -> str:
