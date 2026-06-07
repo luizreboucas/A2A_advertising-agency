@@ -49,6 +49,7 @@ workflow.add_conditional_edges(
     }
 )
 workflow.add_edge(START, "gerente")
-workflow.add_edge("pesquisador", END)
+workflow.add_edge("pesquisador", "redator")
 workflow.add_edge("redator", END)
+
 graph = workflow.compile()
