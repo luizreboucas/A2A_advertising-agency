@@ -1,7 +1,7 @@
 from typing import TypedDict, Annotated, Literal
 from langgraph.graph import add_messages, StateGraph, END, START
 from langchain_core.messages import BaseMessage, AIMessage
-from gerente_agent import run_agent
+from src.gerente_agent import run_agent
 from a2a.client.card_resolver import A2ACardResolver
 import httpx
 from uuid import uuid4
