@@ -9,3 +9,5 @@ pydantic
 uvicorn
 tavily
 sse-starlette
+ddgs
+bs4
