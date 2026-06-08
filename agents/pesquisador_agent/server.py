@@ -4,9 +4,12 @@ from a2a.server.routes import create_jsonrpc_routes, add_a2a_routes_to_fastapi, 
 from a2a.server.tasks import InMemoryTaskStore
 from fastapi import FastAPI
 from agents.pesquisador_agent.agent import agent_card
+import logging
 
-
-
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s"
+)
 request_handler = DefaultRequestHandler(
     agent_executor=Executor(),
     task_store=InMemoryTaskStore(),

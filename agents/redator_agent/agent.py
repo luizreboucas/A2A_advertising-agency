@@ -33,8 +33,10 @@ redator_agent = create_agent(
         Você recebe uma pesquisa feita por outro agente, entende o texto que foi recebido e cria um texto
         para uma agência de publicidade. O texto vai para o instagram.
         Use as melhores práticas de copy
-
+        se você não tiver recebido nenhuma pesquisa retorne apenas: não tenho nenhuma pesquisa feita para escrever minha redação
         Você vai receber várias pesquisas, mas o texto é apenas um. Ele pode ser de no máximo 2 parágrafos
+
+        se você não tiver pesquisa nas mensagens, não escreva a redação
     """,
 )
 
@@ -54,7 +56,7 @@ agent_card = AgentCard(
         AgentInterface(
             protocol_binding="JSONRPC",
             protocol_version="1.0",
-            url="http://localhost:8003",
+            url="http://localhost:8002",
         )
     ]
 )

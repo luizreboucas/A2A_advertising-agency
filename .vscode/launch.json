@@ -26,6 +26,21 @@
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "jinja": true
+        },
+        {
+            "name": "Gerente Agent: Uvicorn",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "src.server:app",
+                "--reload",
+                "--port",
+                "8000"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "jinja": true
         }
     ]
 }

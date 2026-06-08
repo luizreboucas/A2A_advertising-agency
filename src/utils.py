@@ -9,9 +9,9 @@ from a2a.client import ClientConfig, ClientFactory
 from a2a.types import SendMessageRequest, Message,StreamResponse, Role, Part
 
 AGENTS = {
-            "gerente": "http://localhost:8001",
-            "pesquisador": "http://localhost:8002",
-            "redator": "http://localhost:8003"
+            "gerente": "http://localhost:8000",
+            "pesquisador": "http://localhost:8001",
+            "redator": "http://localhost:8002"
         }
 
 def get_text_from_message(message: Message) -> str:
@@ -46,17 +46,14 @@ def get_text_from_stream_response(response: StreamResponse) -> str | None:
     return None
 
 async def call_agent(messages: list[BaseMessage], agent_url: str, context_id: str):
-    async with httpx.AsyncClient() as httpx_client:
+    async with httpx.AsyncClient(timeout=80) as httpx_client:
         resolver = A2ACardResolver(
             httpx_client=httpx_client,
             base_url=agent_url
         )
-        agent_card = resolver.get_agent_card()
+        agent_card = await resolver.get_agent_card()
         config = ClientConfig(
             httpx_client=httpx_client,
-            agent_card=agent_card,
-            context_id=context_id,
-            messages=messages
         )
         client = ClientFactory(config).create(card=agent_card)
         request = SendMessageRequest(
@@ -64,9 +61,7 @@ async def call_agent(messages: list[BaseMessage], agent_url: str, context_id: st
                 message_id=str(uuid4()),
                 context_id=context_id,
                 role=Role.ROLE_USER,
-                parts=[
-                    Part(text=str(messages[-1].content)),
-                ],
+                parts=[Part(text=str(message.content)) for message in messages]
             )
         )
         final_text = ""

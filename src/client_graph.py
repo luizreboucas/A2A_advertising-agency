@@ -17,13 +17,13 @@ class AgenciaState(TypedDict):
 async def call_redator(state: AgenciaState):
     response = await call_agent(messages=state["messages"], agent_url=AGENTS["redator"], context_id=state["context_id"])
     return {
-        "messages": [AIMessage(content=response)] + state["messages"],
+        "messages": [AIMessage(content=response)],
     }
 
 async def call_pesquisador(state: AgenciaState):
     response = await call_agent(messages=state["messages"], agent_url=AGENTS["pesquisador"], context_id=state["context_id"])
     return {
-        "messages": [AIMessage(content=response)]
+        "messages": [AIMessage(content=f"[PESQUISA]\n{response}")]
     }
 
 async def call_gerente(state: AgenciaState):
@@ -50,7 +50,7 @@ workflow.add_conditional_edges(
     }
 )
 workflow.add_edge(START, "gerente")
-workflow.add_edge("pesquisador", "redator")
-workflow.add_edge("redator", END)
+workflow.add_edge("pesquisador", "gerente")
+workflow.add_edge("redator", "gerente")
 
 graph = workflow.compile()

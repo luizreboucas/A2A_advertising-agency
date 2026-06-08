@@ -20,8 +20,8 @@ class Executor(AgentExecutor):
         data = response["next_step"]
         message = new_text_message(
             context_id=context_id,
-            text=data,
-            task_id=context.task_id
+            text=response["messages"][-1].content,
+            task_id=context.task_id,
         )
         await event_queue.enqueue_event(
             event=message

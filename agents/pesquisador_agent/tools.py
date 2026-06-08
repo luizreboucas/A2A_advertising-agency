@@ -21,9 +21,9 @@ def search_web(theme: str):
     client = DDGS()
     results = client.text(theme)
     responses = []
-    for result in results[:5]:
+    for result in results[:3]:
         url = result["href"]
-        response = requests.get(url)
+        response = requests.get(url, timeout=3)
         if response.status_code == 200:
             html = response.text
             text = BeautifulSoup(html, "html.parser").get_text()

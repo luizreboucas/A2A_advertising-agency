@@ -1,0 +1,13 @@
+a2a-sdk
+fastapi
+langchain
+langchain-core
+langchain-openai
+langgraph
+python-dotenv
+pydantic
+uvicorn
+tavily
+sse-starlette
+ddgs
+bs4

@@ -37,7 +37,7 @@ agent_card = AgentCard(
     version="1.0.0",
     supported_interfaces=[
         AgentInterface(
-            url="http://localhost:8001",
+            url="http://localhost:8000",
             protocol_binding="JSONRPC",
             protocol_version="1.0"
         )
@@ -50,7 +50,14 @@ gerente_agent = create_agent(
         Você é um gerente de uma agência de publicidade, sua tarefa é saber se a tarefa precisa ir para 
         um pesquisador, um redator, ou finalizar.
         você deve responder sempre com uma palavra apenas, deve ser uma das três: redator, pesquisador, fim.
-
+        Se você tiver a redação e a pesquisa pode chamar 
+        {
+            "next_agent": "fim"
+        }
+        OLHE TODO O HIStÓRICO DE CONVERSAS para ter certeza que o redator tem a pesquisa, e o pesquisador entregou a pesquisa
+        se o pesquisador não tiver entregue a pesquisa, não chame o redator, chame o pesquisador.
+        Se você já tiver a pesquisa no histório de mensagens, chame o redator.
+        se tiver a pesquisa e a redação chame o fim
         exemplos de saídas:
         {
             "next_agent": "redator"

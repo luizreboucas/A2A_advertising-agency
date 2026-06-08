@@ -4,9 +4,12 @@ from a2a.server.tasks import InMemoryTaskStore
 from a2a.server.request_handlers import DefaultRequestHandler
 from agents.redator_agent.agent import agent_card
 from agents.redator_agent.executor import Executor
+import logging
 
-
-
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s"
+)
 
 app = FastAPI()
 

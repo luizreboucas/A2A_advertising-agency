@@ -1,0 +1,42 @@
+services:
+  gerente_agent:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    deploy:
+      replicas: 1
+    networks:
+      - agents_network
+    ports:
+      - "8000:8000"
+
+  pesquisador_agent:
+    build: 
+      context: .
+      dockerfile: ./agents/pesquisador_agent/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    deploy:
+      replicas: 1
+    networks:
+      - agents_network
+    ports:
+      - "8001:8000"
+
+  redator_agent:
+    build: 
+      context: .
+      dockerfile: ./agents/redator_agent/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    deploy:
+      replicas: 1
+    networks:
+      - agents_network
+    ports:
+      - "8002:8000"
+networks:
+  agents_network:
+    external: true
