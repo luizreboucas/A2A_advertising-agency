@@ -10,8 +10,8 @@ from a2a.types import SendMessageRequest, Message,StreamResponse, Role, Part
 
 AGENTS = {
             "gerente": "http://localhost:8000",
-            "pesquisador": "http://localhost:8001",
-            "redator": "http://localhost:8002"
+            "pesquisador": "http://pesquisador_agent:8000",
+            "redator": "http://redator_agent:8000"
         }
 
 def get_text_from_message(message: Message) -> str:

@@ -44,7 +44,7 @@ agent_card = AgentCard(
         AgentInterface(
             protocol_binding="JSONRPC",
             protocol_version="1.0",
-            url="http://localhost:8001"
+            url="http://pesquisador_agent:8000"
         )
     ],
 
