@@ -3,11 +3,12 @@ from langchain.agents import create_agent
 from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
-from langchain_core.messages import BaseMessage
+from langchain_core.messages import AnyMessage
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill, AgentInterface
 from typing import Literal
 from agents.pesquisador_agent.tools import search_web
 import logging
+from typing import Any, TypedDict
 
 load_dotenv(override=True)
 BASE_URL= os.getenv("BASE_URL")
@@ -29,6 +30,8 @@ llm = ChatOpenAI(
 
 #class LlmResponse(BaseModel):
 #    full_research: str
+class AgentInput(TypedDict):
+    messages: list[AnyMessage | dict[str, Any]]
 
 pesquisa = AgentSkill(
     description="Pesquisa na internet",
@@ -62,8 +65,11 @@ pesquisador_agent = create_agent(
     tools=[search_web]
 )
 
-async def run_pesquisador_agent(messages: list[BaseMessage]):
+async def run_pesquisador_agent(messages: list[AnyMessage]):
+    agent_input: AgentInput= {
+        "messages": list(messages)
+    }
     logger.info("Mensagens chegando no pesquisador:\n {messages}")
-    response = await pesquisador_agent.ainvoke({"messages": messages})
+    response = await pesquisador_agent.ainvoke(agent_input)
     logger.info("Resposta do pesquisador:\n {response}")
     return response

@@ -4,9 +4,8 @@ from langchain_openai import ChatOpenAI
 import os
 from langchain.agents import create_agent
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill, AgentInterface
-from langchain_core.messages import BaseMessage
-
-
+from langchain_core.messages import AnyMessage
+from typing import Any, TypedDict
 
 load_dotenv(override=True)
 BASE_URL= os.getenv("BASE_URL")
@@ -25,6 +24,9 @@ llm = ChatOpenAI(
     model=MODEL,
     api_key = API_KEY
 )
+
+class AgentInput(TypedDict):
+    messages: list[AnyMessage | dict[str, Any]]
 
 redator_agent = create_agent(
     llm,
@@ -62,8 +64,11 @@ agent_card = AgentCard(
     ]
 )
 
-async def run_redator_agent(messages: list[BaseMessage]):
-    response = await redator_agent.ainvoke({"messages": messages})
+async def run_redator_agent(messages: list[AnyMessage]):
+    agent_input: AgentInput = {
+        "messages": list(messages)
+    }
+    response = await redator_agent.ainvoke(agent_input)
     return response
 
 

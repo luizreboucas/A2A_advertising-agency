@@ -2,8 +2,8 @@ from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from langchain_core.messages import BaseMessage
-from typing import Literal
+from langchain_core.messages import AnyMessage
+from typing import Literal, Any, TypedDict
 import os
 import logging
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill, AgentInterface
@@ -25,6 +25,8 @@ llm = ChatOpenAI(
     model=MODEL,
     api_key = API_KEY
 )
+class AgentInput(TypedDict):
+    messages: list[AnyMessage | dict[str, Any]]
 
 class LlmResponse(BaseModel):
     next_agent: Literal["redator", "pesquisador", "fim"]
@@ -80,6 +82,9 @@ gerente_agent = create_agent(
     response_format=LlmResponse
 )
 
-async def run_agent(messages: list[BaseMessage], context_id: str):
-    response = await gerente_agent.ainvoke({"messages": messages})
+async def run_agent(messages: list[AnyMessage], context_id: str):
+    agent_input: AgentInput = {
+        "messages": list(messages)
+    }
+    response = await gerente_agent.ainvoke(agent_input)
     return response["structured_response"]

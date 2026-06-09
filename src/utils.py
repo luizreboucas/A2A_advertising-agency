@@ -1,6 +1,6 @@
 from typing import TypedDict, Annotated, Literal
 from langgraph.graph import add_messages, StateGraph, END, START
-from langchain_core.messages import BaseMessage, AIMessage
+from langchain_core.messages import AnyMessage
 from src.gerente_agent import run_agent
 from a2a.client.card_resolver import A2ACardResolver
 import httpx
@@ -46,7 +46,7 @@ def get_text_from_stream_response(response: StreamResponse) -> str | None:
 
     return None
 
-async def call_agent(messages: list[BaseMessage], agent_url: str, context_id: str):
+async def call_agent(messages: list[AnyMessage], agent_url: str, context_id: str):
     async with httpx.AsyncClient(timeout=80) as httpx_client:
         resolver = A2ACardResolver(
             httpx_client=httpx_client,
