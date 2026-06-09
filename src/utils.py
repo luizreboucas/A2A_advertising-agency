@@ -4,14 +4,15 @@ from langchain_core.messages import BaseMessage, AIMessage
 from src.gerente_agent import run_agent
 from a2a.client.card_resolver import A2ACardResolver
 import httpx
+import os
 from uuid import uuid4
 from a2a.client import ClientConfig, ClientFactory
 from a2a.types import SendMessageRequest, Message,StreamResponse, Role, Part
 
 AGENTS = {
-            "gerente": "http://localhost:8000",
-            "pesquisador": "http://pesquisador_agent:8000",
-            "redator": "http://redator_agent:8000"
+            "gerente": os.getenv("GERENTE_AGENT_URL", "http://localhost:8000"),
+            "pesquisador": os.getenv("PESQUISADOR_AGENT_URL", "http://localhost:8001"),
+            "redator": os.getenv("REDATOR_AGENT_URL", "http://localhost:8002")
         }
 
 def get_text_from_message(message: Message) -> str:

@@ -5,15 +5,20 @@ from pydantic import BaseModel
 from langchain_core.messages import BaseMessage
 from typing import Literal
 import os
+import logging
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill, AgentInterface
 
-load_dotenv()
+load_dotenv(override=True)
 BASE_URL= os.getenv("BASE_URL")
 MODEL=os.getenv("MODEL")
 API_KEY=os.getenv("API_KEY")
+AGENT_PUBLIC_URL = os.getenv("GERENTE_AGENT_URL", "http://localhost:8000")
+logger = logging.getLogger(__name__)
 
 if not BASE_URL or not MODEL or not API_KEY:
     raise ValueError("Variáveis de ambiente não foram carregadas")
+
+logger.info("Gerente usando LLM base_url=%s model=%s", BASE_URL, MODEL)
 
 llm = ChatOpenAI(
     base_url=BASE_URL,
@@ -37,7 +42,7 @@ agent_card = AgentCard(
     version="1.0.0",
     supported_interfaces=[
         AgentInterface(
-            url="http://localhost:8000",
+            url=AGENT_PUBLIC_URL,
             protocol_binding="JSONRPC",
             protocol_version="1.0"
         )

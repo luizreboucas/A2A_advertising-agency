@@ -10,6 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env",
             "console": "integratedTerminal"
         },
         {
@@ -24,6 +25,7 @@
                 "8002"
             ],
             "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env",
             "console": "integratedTerminal",
             "jinja": true
         },
@@ -39,6 +41,7 @@
                 "8000"
             ],
             "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env",
             "console": "integratedTerminal",
             "jinja": true
         }

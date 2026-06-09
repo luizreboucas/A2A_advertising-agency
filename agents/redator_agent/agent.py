@@ -8,10 +8,11 @@ from langchain_core.messages import BaseMessage
 
 
 
-load_dotenv()
+load_dotenv(override=True)
 BASE_URL= os.getenv("BASE_URL")
 MODEL=os.getenv("MODEL")
 API_KEY=os.getenv("API_KEY")
+AGENT_PUBLIC_URL = os.getenv("AGENT_PUBLIC_URL", os.getenv("REDATOR_AGENT_URL", "http://localhost:8002"))
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +57,7 @@ agent_card = AgentCard(
         AgentInterface(
             protocol_binding="JSONRPC",
             protocol_version="1.0",
-            url="http://redator_agent:8000"
+            url=AGENT_PUBLIC_URL
         )
     ]
 )

@@ -5,6 +5,10 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file: .env
+    environment:
+      GERENTE_AGENT_URL: http://gerente_agent:8000
+      PESQUISADOR_AGENT_URL: http://pesquisador_agent:8000
+      REDATOR_AGENT_URL: http://redator_agent:8000
     deploy:
       replicas: 1
     networks:
@@ -18,6 +22,8 @@ services:
       dockerfile: ./agents/pesquisador_agent/Dockerfile
     restart: unless-stopped
     env_file: .env
+    environment:
+      AGENT_PUBLIC_URL: http://localhost:8001
     deploy:
       replicas: 1
     networks:
@@ -31,6 +37,8 @@ services:
       dockerfile: ./agents/redator_agent/Dockerfile
     restart: unless-stopped
     env_file: .env
+    environment:
+      AGENT_PUBLIC_URL: http://localhost:8002
     deploy:
       replicas: 1
     networks:

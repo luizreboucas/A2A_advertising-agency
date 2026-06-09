@@ -17,7 +17,7 @@ class AgenciaState(TypedDict):
 async def call_redator(state: AgenciaState):
     response = await call_agent(messages=state["messages"], agent_url=AGENTS["redator"], context_id=state["context_id"])
     return {
-        "messages": [AIMessage(content=response)],
+        "messages": [AIMessage(content=f"[REDACAO]\n{response}")],
     }
 
 async def call_pesquisador(state: AgenciaState):
